@@ -6,10 +6,15 @@
     <div class="nDays">
       <span
         @click="pullInfo(day)"
-        v-for="day in dates.slice(0, nDays)"
+        v-for="day in dates"
         v-bind:key="day"
-        >{{ day }}</span
+        :class="{
+          weekend: ((dates.indexOf(day)+1) % 7 == 0) && (day != '' ),
+          thisDay: (dates.indexOf(day)-firstDay+1) == today
+        }"
       >
+        {{ day }}
+      </span>
     </div>
   </div>
 </template>
@@ -19,8 +24,9 @@ export default {
   name: "dayDate",
 
   props: {
-    firstDay: String,
+    firstDay: Number,
     nDays: Number,
+    today: Number
   },
 
   data() {
@@ -65,9 +71,20 @@ export default {
 
   methods: {
     pullInfo(day) {
-      console.log(day);
+      //console.log(day);
+      console.log(this.firstDay+this.dates.indexOf(day), this.today)
     },
+    formatView(){
+      for (let i = 0; i < this.firstDay; i++){
+        this.dates.unshift('')
+      }
+      this.dates.slice(0, this.nDays)
+    }
   },
+
+  beforeMount(){
+    this.formatView()
+  }
 };
 </script>
 
@@ -104,6 +121,14 @@ span {
 
 .nDays span {
   background: linear-gradient(to bottom right, #70667775, #706677b2);
+}
+
+.weekend {
+  color: red;
+}
+
+.thisDay{
+  color: blue;
 }
 
 @media only screen and (max-width: 600px) {
