@@ -71,14 +71,21 @@ export default {
 
   methods: {
     pullInfo(day) {
-      //console.log(day);
-      console.log(this.firstDay+this.dates.indexOf(day), this.today)
+      console.log(this.dates.indexOf(day));
+      //  console.log(this.firstDay+this.dates.indexOf(day), this.today)
     },
     formatView(){
+      this.dates = this.dates.slice(0, this.nDays)
       for (let i = 0; i < this.firstDay; i++){
         this.dates.unshift('')
       }
-      this.dates.slice(0, this.nDays)
+      try{
+        let overflow = this.dates.slice(35, this.dates.length)
+        for (let i in overflow) this.dates[i] = overflow[i]
+        this.dates = this.dates.slice(0, 35)
+      } catch {
+        console.log('hello')
+      }
     }
   },
 
@@ -121,6 +128,13 @@ span {
 
 .nDays span {
   background: linear-gradient(to bottom right, #70667775, #706677b2);
+}
+
+.nDays span:hover{
+  background: linear-gradient(to top right, #70667775, #706677b2);
+}
+.nDays span:active{
+  background: linear-gradient(to top right, #83748dc9, #504855);
 }
 
 .weekend {
