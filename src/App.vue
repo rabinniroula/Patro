@@ -1,22 +1,33 @@
 <template>
   <div>
     <div class="monthInfo">
-      <button>
+      <button @click="goBack">
         <img src="./assets/chevron-left.svg" alt="पछिल्लो महिना" />
       </button>
-      <h1>{{ months[month - 1] }}</h1>
-      <button>
+      <div class="month-year">
+        <h1>{{ months[month - 1] }}</h1>
+        <h1>{{ year }}</h1>
+      </div>
+      <button @click="goAhead">
         <img src="./assets/chevron-right.svg" alt="अघिल्लो महिना" />
       </button>
     </div>
     <dayDate :firstDay="fDay" :nDays="32" :today="today"></dayDate>
 
-    <h3>Still in protype phase. More features coming soon. Made with ❤️ by <a href="https://github.com/rabinniroula" target="_blank" rel="noopener noreferrer">Rabin Niroula</a> </h3>
+    <h3>
+      Still in protype phase. More features coming soon. Made with ❤️ by
+      <a
+        href="https://github.com/rabinniroula"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Rabin Niroula</a
+      >
+    </h3>
   </div>
 </template>
 
 <script>
-import { getTodayInBS } from "nepcalconv";
+import { getTodayInBS, getBsMonthInfo } from "nepcalconv";
 import dayDate from "./components/dayDate.vue";
 
 export default {
@@ -27,8 +38,10 @@ export default {
   data() {
     return {
       fDay: 0,
+      mLen: 0,
       today: 0,
-      month: "",
+      month: 0,
+      year: 0,
       months: [
         "बैशाख",
         "जेष्ठ",
@@ -47,21 +60,42 @@ export default {
   },
 
   methods: {
-    findDay(c, d) {
-      for (d; d > 1; d--) {
-        c--;
-        if (c == -1) c = 6;
-      }
+    getTodaysInfo() {
+      var Today = getTodayInBS();
+      this.year = Today.year;
+      this.month = Today.month;
+      this.today = Today.day;
+      this.monthChanged();
+    },
 
-      return c;
+    goBack() {
+      this.month--;
+      this.monthChanged();
+      if (this.month < 1) {
+        this.month = 12;
+        this.year--;
+      }
+    },
+
+    goAhead() {
+      this.month++;
+      this.monthChanged();
+      if (this.month > 12) {
+        this.month = 1;
+        this.year++;
+      }
+    },
+
+    monthChanged() {
+      var monthInfo = getBsMonthInfo(this.year, this.month);
+      this.fDay = monthInfo.firstDay - 1;
+      this.mLen = monthInfo.mLen
+      console.log(this.fDay, this.mLen)
     },
   },
 
   beforeMount() {
-    var Today = getTodayInBS();
-    this.month = Today.month;
-    this.today = Today.day;
-    this.fDay = this.findDay(Today.weekday, Today.day);
+    this.getTodaysInfo();
   },
 };
 </script>
@@ -74,6 +108,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  text-align: center;
 }
 
 body {
@@ -102,7 +137,18 @@ body {
   background: #dda89f;
 }
 
-.monthInfo button:active{
+.monthInfo button:active {
   background: #926f69;
+}
+
+.month-year {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.month-year h1 {
+  margin: 0px;
 }
 </style>
