@@ -12,10 +12,10 @@
         <img src="./assets/chevron-right.svg" alt="अघिल्लो महिना" />
       </button>
     </div>
-    <dayDate :firstDay="fDay" :nDays="32" :today="today"></dayDate>
+    <dayDate :firstDay="fDay" :nDays="mLen" :today="today" :key="month"></dayDate>
 
     <h3>
-      Still in protype phase. More features coming soon. Made with ❤️ by
+      Still in protype phase. More features coming soon... Made with ❤️ by
       <a
         href="https://github.com/rabinniroula"
         target="_blank"
@@ -89,8 +89,8 @@ export default {
     monthChanged() {
       var monthInfo = getBsMonthInfo(this.year, this.month);
       this.fDay = monthInfo.firstDay - 1;
-      this.mLen = monthInfo.mLen
-      console.log(this.fDay, this.mLen)
+      this.mLen = monthInfo.mLen;
+      // console.log(this.fDay, this.mLen);
     },
   },
 
