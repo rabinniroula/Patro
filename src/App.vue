@@ -20,7 +20,7 @@
     ></dayDate>
 
     <h3>
-      Still in protype phase. More features coming soon... Made with ❤️ by
+      Still in prototype phase. More features coming soon... Made with ❤️ by
       <a
         href="https://github.com/rabinniroula"
         target="_blank"
