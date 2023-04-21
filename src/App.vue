@@ -12,7 +12,12 @@
         <img src="./assets/chevron-right.svg" alt="अघिल्लो महिना" />
       </button>
     </div>
-    <dayDate :firstDay="fDay" :nDays="mLen" :today="today" :key="month"></dayDate>
+    <dayDate
+      :firstDay="fDay"
+      :nDays="mLen"
+      :today="today"
+      :key="month"
+    ></dayDate>
 
     <h3>
       Still in protype phase. More features coming soon... Made with ❤️ by
@@ -88,7 +93,7 @@ export default {
 
     monthChanged() {
       var monthInfo = getBsMonthInfo(this.year, this.month);
-      this.fDay = monthInfo.firstDay - 1;
+      this.fDay = monthInfo.firstDay;
       this.mLen = monthInfo.mLen;
       // console.log(this.fDay, this.mLen);
     },
